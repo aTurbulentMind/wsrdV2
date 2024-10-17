@@ -1,0 +1,116 @@
+/* grids */
+.grid{
+    display: grid;
+    grid-template-columns: 1fr;
+    align-items: center;
+    gap: var(--marg);
+    padding: var(--pad);
+
+        @media screen and  (min-width: 769px) {
+            grid-template-columns: 1fr 1fr ;
+        }
+
+        @media screen and  (min-width: 1024px) {
+            margin: 0 10vw;
+        }
+}
+
+.bord_Caps {
+	border-top: var(--bord);
+	border-bottom: var(--bord);
+	text-shadow: none;
+	margin: 5vh 0 5vh 15vw;
+}
+
+/* blurred background */
+.glass_Back{
+    background: var(--back_Hallow);
+    box-shadow: var(--box_Shadow);
+    backdrop-filter: blur(3px);
+    -webkit-backdrop-filter: blur(3px);
+    border-radius: var(--rad);
+    border: var(--thick) solid var(--grabber);
+    height: fit-content;
+    width: fit-content;
+    padding: var(--pad);
+}
+
+/* Headline */
+.head_Line {
+	position: relative;
+	width: fit-content;
+    text-align: center;
+    margin: 10vh 10vw ;
+	background: var(--back_Main);
+	border: var(--bord);
+    border-radius:var(--rad) ;
+    cursor: default;
+    
+	& h1 {
+        text-transform: capitalize;
+        padding:  1rem 5rem;
+        margin: 0;
+    }
+    
+    @media screen and (min-width: 766px) {
+        width: 80vw;
+        h1{
+            font-size: var(--f_Xl);
+        }
+    } 
+    
+    
+    @media screen and (min-width: 1024px) {
+            font-size: var(--f_Xxl);
+        } 
+}
+
+
+
+/* form */
+	.selector {
+		margin-left: 25vw;
+	}
+    
+	.sendableForm {
+		max-width: 600px;
+		margin: 3vh auto;
+		padding: 20px;
+		background: var(--extra);
+		border-radius: 10px;
+		border: var(--bord);
+		box-shadow: 0 0 10px rgba(10, 1, 26, 0.1);
+
+		& label {
+			display: block;
+			margin-bottom: 8px;
+			font-weight: bold;
+
+			& input:focus {
+				outline: 2px solid var(--extra);
+			}
+
+			& fieldset {
+				margin-bottom: 20px;
+				border: none;
+			}
+
+			& input {
+				margin-right: 10px;
+			}
+		}
+
+		& input[type='text']:focus,
+		input[type='email']:focus,
+		textarea:focus {
+			border-color: var(--grabber);
+			box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+			outline: none;
+		}
+	}
+
+	@media (max-width: 600px) {
+		.sendableForm {
+			padding: 10px;
+		}
+	}
