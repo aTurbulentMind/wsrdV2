@@ -2,12 +2,6 @@ import { fail, redirect } from '@sveltejs/kit';
 import type { Actions, PageServerLoad } from './$types';
 
 export const load: PageServerLoad = async ({ url, locals: { supabase, safeGetSession } }) => {
-  const { session } = await safeGetSession();
-
-  // if the user is already logged in return them to the account page
-  if (session) {
-    console.log('User is already logged in');
-  }
 
   try {
     const { data: folders, error: folderError } = await supabase.storage.from('Gallery').list('bout_photos');

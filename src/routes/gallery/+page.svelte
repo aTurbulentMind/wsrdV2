@@ -9,10 +9,6 @@
 	let selectedGallery = ''
 	let selectedGalleryImages = []
 
-	$: {
-		console.log('Folders updated:', folders)
-	}
-
 	async function showGalleryDetails(galleryName) {
 		try {
 			const { data, error } = await supabase.storage

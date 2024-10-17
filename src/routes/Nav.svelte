@@ -69,9 +69,22 @@
 						class:current={current === 5}
 						on:click|preventDefault={() => {
 							current = 5
-							navigateTo('/forms')
+							navigateTo('/contact')
 						}}
-						href="/forms/">Contact</a
+						href="/contact/">Contact</a
+					>
+				</button>
+			</li>
+
+			<li>
+				<button on:click={() => (isMenuOpen = false)} on:keydown={() => (isMenuOpen = false)}>
+					<a
+						class:current={current === 5}
+						on:click|preventDefault={() => {
+							current = 5
+							navigateTo('/faqs')
+						}}
+						href="/faqs/">Info</a
 					>
 				</button>
 			</li>

@@ -1,9 +1,6 @@
 <!-- +page.svelte  -->
 
 <script lang="ts">
-	import { onMount } from 'svelte'
-	import { enhance } from '$app/forms'
-	import type { SubmitFunction } from '@sveltejs/kit'
 	import { fade } from 'svelte/transition'
 	import MeBase from '$lib/assets/img/meBase.jpg'
 
@@ -72,8 +69,6 @@
 			const size = sizeData.find((size) => size.size_id === inventory.size_id)
 			return size ? size.size_name : ' N/A'
 		})
-
-		console.log('**availableSizes:', availableSizes)
 
 		// Update the storeFrontSpace object with product details
 		storeFrontSpace = {
