@@ -6,7 +6,6 @@
 	export let size = 10
 	export let url: string
 	export let supabase: SupabaseClient
-	export let showUploadButton = true // New prop to control the upload button visibility
 
 	let avatarUrl: string | null = null
 	let uploading = false
@@ -16,7 +15,6 @@
 
 	const downloadImage = async (path: string) => {
 		try {
-			console.log('Downloading image from path:', path)
 			const { data, error } = await supabase.storage.from('avatars').download(path)
 
 			if (error) {
@@ -24,11 +22,10 @@
 			}
 
 			const url = URL.createObjectURL(data)
-			console.log('Image URL created:', url)
 			avatarUrl = url
 		} catch (error) {
 			if (error instanceof Error) {
-				console.log('Error downloading image:', error.message)
+				console.log('Error downloading image: ', error.message)
 			}
 		}
 	}
@@ -52,7 +49,6 @@
 			}
 
 			url = filePath
-			console.log('File uploaded, new URL:', url)
 			setTimeout(() => {
 				dispatch('upload')
 			}, 100)
@@ -65,10 +61,9 @@
 		}
 	}
 
-	$: if (url) {
-		console.log('URL changed, downloading image:', url)
-		downloadImage(url)
-	}
+	export let showUploadButton = true // New prop to control the upload button visibility
+
+	$: if (url) downloadImage(url)
 </script>
 
 <div>
@@ -83,7 +78,6 @@
 		<div class="avatar no-image" style="height: {size}em; width: {size}em;"></div>
 	{/if}
 	<input type="hidden" name="avatarUrl" value={url} />
-
 	{#if showUploadButton}
 		<div style="width: {size}em;" class="uppyPoto">
 			<label class="button primary block" for="single">
