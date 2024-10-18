@@ -1,0 +1,91 @@
+	  * {
+    padding: 0;
+    margin: 0;
+    scroll-behavior: smooth;
+    box-sizing: border-box;
+    }
+    
+    body {
+	color: var(--text_Main);
+	background: var(--back_Main);
+	font-family: var(--font_Main);
+    letter-spacing: var(--pad_Sm);
+	line-height: 1.6;
+    overflow-x: hidden;
+    }
+
+    a {
+    text-decoration: none;
+    color: var(--grabber);
+    font-weight: Bold;
+    cursor: pointer;
+    transition: var(--transition);
+
+    &:hover {
+        color: var(--grabber);
+        transform: scale(1.1);
+        text-decoration: underline;
+        cursor: pointer;
+    }
+    }
+
+    h1,
+    h2,
+    h3,
+    h4,
+    p,
+    .marg_Also {
+        margin: var(--qtr_Marg);
+    }
+
+    h1 {
+        font-size: var(--f_Xl);
+    }
+
+    h2 {
+        font-size: var(--f_Lg);
+    }
+
+    h3 {
+        font-size: var(--f_M);
+    }
+
+    p {
+        font-size: var(--font);
+    }
+
+    .altFont {
+        font-family: var(--font_Alt);
+    }
+
+    ul {
+        list-style-type: none;
+    }
+
+    span{
+        color: var(--highlight);
+    }
+
+    /* Tablet Screen  */
+@media screen and  (min-width: 768px) {
+    h1,
+    h2,
+    h3,
+    h4,
+    p,
+    .marg_Also{
+        margin: var(--half_Marg);
+    }
+
+}
+
+    /* Desktop Screen */
+@media screen and (min-width: 1024px) {
+    h1,
+    h2,
+    h3,
+    p,
+    .marg_Also {
+        margin: var(--lrg_Marg);
+    }
+} 
