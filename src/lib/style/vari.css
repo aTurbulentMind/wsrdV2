@@ -1,0 +1,68 @@
+:root {
+    /* Spacing */
+    --space_Sm: 0.25rem;
+    --space_M: 0.5rem;
+    --space: 1rem;
+    --space_L: 1.25rem;
+    --space_Xl: 1.5rem;
+    --space_Xxl: 2rem;
+
+    
+    --pad_Sm: 0.25rem;
+    --pad: 0.75rem;
+    --pad_Xl: 1.5rem;
+    --pad_Xxl: 2rem;
+
+    --marg: 0.75rem;
+    --marg_Xl: 1.5rem;
+    --marg_Xxl: 2rem;
+    --marg_Xxxl: 3rem;
+
+    /* Page Spacing */
+    --qtr_Marg: 5% 8%;
+    --qtr_Tp_Marg: 5% 0;
+    --qtr_Sd_Marg: 0 8%;
+    --half_Marg: 15% 8%;
+    --lrg_Marg: 10% 20%;
+
+    /* Borders */
+    --thick: 1px;
+    --rad: 10px;
+    --bord: 2px solid var(--highlight);
+    --bord_Alt: 2px solid var(--back_Tre);
+
+    /* Shadows & Lights */
+    --text_Shadow: 2px 2px 2px var(--back_Main);
+    --text_Shadow_Alt: 2px 2px 8px var(--grabber);
+    --text_Light: 2px 2px 2px var(--extra);
+
+    --box_Shadow: 1px 3px 5px hsl(40, 20%, 3%);
+    --box_Light: 1px 3px 5px var(--extra);
+    --box_Light_Alt: 0 0 20px 5px var(--extra);
+
+    --ddd_Shadow: 2.5px 5px var(--grabber);
+    --ddd_Shadow_Alt: 2.5px 5px var(--highlight);
+
+    /* Opacity */
+    --op_T: 0.25;
+    --op_M: 0.5;
+    --op_L: 0.75;
+
+    /* Font Sizes */
+    --f_Xs: 0.25rem;
+    --f_Sm: 0.75rem;
+    --font: 1rem;
+    --f_M: 1.25rem;
+    --f_Lg: 1.5rem;
+    --f_Xl: 2rem;
+    --f_Xxl: 3rem;
+    --f_Xxxl: 5rem;
+
+    /* Font Stack */
+    --font_Main: "Poppins", sans-serif;
+    --font_Alt: "Afacad Flux", sans-serif;
+
+    /* Transition */
+    --tSpeed: 0.3s;
+    --transition: all 0.3s ease-in-out 0.1s;
+}

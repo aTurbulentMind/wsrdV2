@@ -1,0 +1,332 @@
+<script lang="ts">
+	import { onMount, onDestroy } from 'svelte'
+
+	export let data
+	let { supabase, profile, folders, existingEvents } = data
+	$: ({ supabase, profile, folders, existingEvents } = data)
+
+	console.log(existingEvents)
+
+	let showModal = false
+	let selectedGallery = ''
+	let selectedGalleryImages = []
+
+	let eventForm = {
+		event_name: '',
+		event_date: '',
+		location: '',
+		description: '',
+		status_id: '',
+		images: []
+	}
+
+	// Function to sanitize names (removing special characters, making lowercase)
+	const sanitizeName = (name) => name.replace(/[^a-zA-Z0-9-_ ]/g, '').toLowerCase()
+
+	// Function to find the matching event based on gallery name
+	const findMatchingEvent = (galleryName) => {
+		const sanitizedGalleryName = sanitizeName(galleryName)
+
+		// Check if any event name matches the sanitized gallery name
+		return existingEvents.find((event) => {
+			const sanitizedEventName = sanitizeName(event.event_name)
+			return sanitizedGalleryName === sanitizedEventName
+		})
+	}
+
+	async function showGalleryDetails(galleryName) {
+		try {
+			const { data, error } = await supabase.storage
+				.from('Gallery')
+				.list(`bout_photos/${galleryName}`, { limit: 100 })
+
+			if (error) {
+				console.error('Error fetching gallery details:', error)
+				return
+			}
+
+			if (data && data.length > 0) {
+				selectedGalleryImages = data.map((file) => {
+					const publicURL = `https://vyzeudiywhlxdzpnfehs.supabase.co/storage/v1/object/public/Gallery/bout_photos/${galleryName}/${file.name}`
+					return publicURL
+				})
+			} else {
+				console.log('No images found in gallery:', galleryName)
+			}
+
+			// Try to find the matching event
+			const matchingEvent = findMatchingEvent(galleryName)
+
+			if (matchingEvent) {
+				console.log('Matching event found:', matchingEvent)
+
+				// Display event details
+				eventForm = {
+					...eventForm,
+					event_name: matchingEvent.event_name,
+					event_date: new Date(matchingEvent.event_date).toISOString().slice(0, 10),
+					location: matchingEvent.location,
+					description: matchingEvent.description,
+					status_id: matchingEvent.status_id.toString()
+				}
+			} else {
+				console.log('No matching event found for this gallery')
+				eventForm = {} // Clear the form if no match is found
+			}
+
+			selectedGallery = galleryName
+			showModal = true
+		} catch (err) {
+			console.error('Error showing gallery details:', err)
+		}
+	}
+</script>
+
+<svelte:head>
+	<title>Event Gallery</title>
+</svelte:head>
+
+<main>
+	<div class=" head_Line">
+		<h1>WSRD Event Gallery</h1>
+	</div>
+
+	<p class="intro-paragraph">
+		The bouts are amazing and bring out the best characters. Here are some of the best of them for
+		you to check out.
+	</p>
+
+	<section class="gallery-container">
+		{#if folders && folders.length > 0}
+			<article class="carousel-container">
+				{#each folders as folder, index}
+					<button
+						class="gallery-item {index % 2 === 0 ? 'above' : 'below'}"
+						type="button"
+						aria-label="View details for {folder.name}"
+						on:click={() => showGalleryDetails(folder.name)}
+					>
+						<h2>{folder.name}</h2>
+					</button>
+				{/each}
+			</article>
+		{:else if folders === undefined}
+			<p aria-live="polite">Loading folders...</p>
+		{:else}
+			<p aria-live="polite">No folders found.</p>
+		{/if}
+
+		<div class="under">
+			{#if showModal}
+				<h3>{selectedGallery}</h3>
+				{#if selectedGalleryImages.length > 0}
+					<figure class="carousel-container">
+						{#each selectedGalleryImages as imageUrl}
+							<img src={imageUrl} alt={selectedGallery} />
+						{/each}
+					</figure>
+
+					{#if eventForm.event_name}
+						<label for="event_description">
+							Description
+							<p>{eventForm.description}</p>
+						</label>
+
+						<label for="event_date">
+							Date
+							<p>{eventForm.event_date}</p>
+						</label>
+
+						<label for="event_location">
+							Location
+							<p>{eventForm.location}</p>
+						</label>
+					{/if}
+
+					<button class="W-button" on:click={() => (showModal = false)}>Close</button>
+				{:else}
+					<p aria-live="polite">Loading gallery images...</p>
+				{/if}
+			{/if}
+		</div>
+	</section>
+</main>
+
+<!-- svelte-ignore css-unused-selector -->
+<style>
+	.intro-paragraph {
+		margin-bottom: var(--space);
+		color: var(--text_Main);
+	}
+
+	.gallery-container {
+		width: 90vw;
+		margin: 10vh auto;
+		color: var(--highlight);
+		background-color: var(--back_Hallow_Dark);
+		border: var(--bord);
+		box-shadow: var(--box_Shadow);
+		border-radius: var(--rad);
+
+		& h2 {
+			text-transform: uppercase;
+			padding: 20px;
+			margin: 0;
+			font-size: var(--f_M);
+		}
+
+		& img {
+			width: 20vw;
+			cursor: pointer;
+		}
+
+		.gallery-item {
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			text-align: center;
+			cursor: pointer;
+
+			& h2 {
+				padding: 7vh 5vw 0 5vw;
+				color: var(--extra);
+				text-shadow:
+					0 0 5px var(--back_Tre),
+					0 0 10px var(--back_Tre),
+					0 0 20px var(--back_Tre),
+					0 0 40px var(--back_Tre),
+					0 0 80px var(--back_Tre);
+			}
+
+			& img {
+				max-width: 200px;
+				object-fit: cover;
+			}
+		}
+
+		.carousel-container {
+			display: flex;
+			overflow-x: auto;
+			gap: 40px;
+			height: 60vh;
+			margin: 40px 10px;
+			position: relative; /* To add the timeline line */
+			align-items: center;
+
+			&::before {
+				content: '';
+				position: absolute;
+				top: 50%;
+				left: 0;
+				width: 200%;
+				height: 0;
+				background: transparent;
+				border: 5px dashed var(--highlight);
+				z-index: 0;
+			}
+
+			&::-webkit-scrollbar {
+				height: 12px;
+			}
+
+			&::-webkit-scrollbar-thumb {
+				background: var(--grabber);
+				border-radius: 6px;
+			}
+
+			&::-webkit-scrollbar-track {
+				background: var(--gradient);
+			}
+		}
+
+		button {
+			background: var(--grabber);
+			text-align: center;
+			padding: var(--space);
+			margin: var(--space);
+			z-index: 1;
+
+			&:hover {
+				background: var(--grabber_Alt);
+				cursor: pointer;
+			}
+		}
+	}
+
+	.under {
+		& .carousel-container::before,
+		.carousel-container::after {
+			display: none;
+		}
+	}
+
+	.modal-background {
+		z-index: 420;
+	}
+
+	.carousel-container {
+		display: flex;
+		overflow-x: auto;
+		gap: 40px;
+		margin: 40px 10px;
+		position: relative;
+		align-items: center; /* Centers the timeline */
+
+		/* Horizontal dashed timeline line */
+		&::before {
+			content: '';
+			position: absolute;
+			top: 50%; /* Middle of the container */
+			left: 0;
+			width: 200%;
+			height: 0;
+			border: 3px dashed var(--highlight);
+			z-index: 0;
+		}
+
+		&::-webkit-scrollbar {
+			display: none;
+		}
+	}
+
+	.gallery-item {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		text-align: center;
+		cursor: pointer;
+		position: relative; /* To position above/below line */
+		z-index: 1; /* Above the timeline line */
+
+		h2 {
+			padding: 7vh 5vw 0 5vw;
+			color: var(--extra);
+			text-shadow:
+				0 0 5px var(--back_Tre),
+				0 0 10px var(--back_Tre),
+				0 0 20px var(--back_Tre),
+				0 0 40px var(--back_Tre),
+				0 0 80px var(--back_Tre);
+		}
+
+		img {
+			max-width: 200px;
+			object-fit: cover;
+		}
+	}
+
+	/* Alternating positions using CSS classes */
+	.above {
+		top: -100px; /* Shift above the timeline */
+	}
+
+	.below {
+		top: 100px; /* Shift below the timeline */
+	}
+
+	/* Optional: Smooth transitions on hover */
+	.gallery-item:hover {
+		transform: scale(1.05);
+		transition: transform 0.3s;
+	}
+</style>
