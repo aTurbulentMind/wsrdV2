@@ -99,11 +99,12 @@
 
 <style>
 	ul {
-		width: 60vw;
+		width: 80vw;
 		margin: 0 auto;
 		& li {
 			list-style: none;
 			margin-bottom: 2rem;
+			font-size: var(--f_Sm);
 		}
 	}
 

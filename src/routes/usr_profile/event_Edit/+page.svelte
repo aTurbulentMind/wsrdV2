@@ -147,7 +147,7 @@
 			{#if findMatchingImage(event.event_name)}
 				<article class="event-flyer">
 					<figure>
-						<figcaption>{event.event_name}</figcaption>
+						<!-- <figcaption>{event.event_name}</figcaption> -->
 						<img
 							src={`${findMatchingImage(event.event_name).url}?t=${new Date().getTime()}`}
 							alt="Event Flyer"
@@ -391,12 +391,12 @@
 
 	figure {
 		width: 40vw;
-		margin: 10rem;
+		/* margin: 10rem; */
 		text-align: center;
 
-		& img {
+		/* & img {
 			width: 100%;
-		}
+		} */
 
 		& figcaption {
 			margin-bottom: 2vh;
@@ -405,8 +405,32 @@
 
 	.event-with-image {
 		display: flex;
-		align-items: center;
-		justify-content: space-between;
+		flex-direction: column;
+		margin-left: 0;
+		width: 100%;
+
+		& img {
+			/* margin: 0 10vw; */
+			width: 90%;
+		}
+
+		@media screen and (min-width: 768px) {
+			flex-direction: row;
+
+			& img {
+				margin: 0;
+			}
+		}
+
+		@media screen and (min-width: 1024px) {
+			& img {
+				width: 50%;
+			}
+
+			& .event-details {
+				margin: 0 15vw;
+			}
+		}
 	}
 
 	.event-details,

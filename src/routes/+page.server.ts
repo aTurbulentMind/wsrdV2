@@ -1,24 +1,23 @@
 //  +page.server.ts 
 
-
 import { redirect } from '@sveltejs/kit';
-import { fetchEventsAndImages } from '../lib/assets/utils/utils';
+import {fetchEventsAndImages} from '$lib/assets/utils/eve_utils';
 
 export const load: PageServerLoad = async ({ locals: { supabase, safeGetSession } }) => {
   const { session } = await safeGetSession();
 
-  const { data: userData, error: userError } = await supabase.auth.getUser();
-
-  if (userError || !userData.user) {
-    console.error('Failed to validate user:', userError?.message);
-    throw redirect(303, '/');
-  }
-
-
   try {
-    const { existingEvents, images } = await fetchEventsAndImages(supabase);
+    const { existingEvents, images, error } = await fetchEventsAndImages(supabase);
+
+    if (error) {
+      console.error('Error fetching data:', error);
+    }
+
     return { session, existingEvents, images };
   } catch (error) {
-    return { existingEvents: [], error: error.message };
+    console.error('Unexpected error:', error.message);
+    return { session: null, existingEvents: [], images: [], error: error.message };
   }
 };
+
+

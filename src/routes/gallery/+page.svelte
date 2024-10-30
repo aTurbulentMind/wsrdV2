@@ -143,7 +143,7 @@
 						</label>
 					{/if}
 
-					<button class="W-button" on:click={() => (showModal = false)}>Close</button>
+					<button class="ripple-btn" on:click={() => (showModal = false)}>Close</button>
 				{:else}
 					<p aria-live="polite">Loading gallery images...</p>
 				{/if}
@@ -218,7 +218,8 @@
 				position: absolute;
 				top: 50%;
 				left: 0;
-				width: 200%;
+				width: 1400px;
+				max-width: 2000px;
 				height: 0;
 				background: transparent;
 				border: 5px dashed var(--highlight);
@@ -254,6 +255,20 @@
 	}
 
 	.under {
+		color: var(--text_Main);
+
+		& h3,
+		label {
+			margin: 0;
+			padding: 0 20px;
+		}
+
+		& img {
+			width: 70%;
+			margin: 0;
+			padding: 0;
+		}
+
 		& .carousel-container::before,
 		.carousel-container::after {
 			display: none;

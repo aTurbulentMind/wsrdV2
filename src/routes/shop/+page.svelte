@@ -2,17 +2,12 @@
 	Shop/warehouse page.
 
 	@since version 0.3.3
-
-	Plans
-	Filter Sidebar: Add a sidebar for filtering items by categories, colors, sizes, or price ranges.
-	Search Bar: Implement a search bar at the top for easy item lookup, with autocomplete suggestions.
-	Item Background Patterns: Introduce subtle background patterns or textures to enhance depth without overwhelming the content.
-
 -->
 
 <script lang="ts">
 	import { fade } from 'svelte/transition'
 	import MeBase from '$lib/assets/img/meBase.jpg'
+	import { getImages } from '$lib/assets/utils/itm_utils'
 
 	// ✨ ✨✨ ✨✨ ✨✨ ✨
 
@@ -21,6 +16,8 @@
 	let { session, productData, productInventory, sizeData, images } = data
 	$: ({ session, productData, productInventory, sizeData, images } = data)
 
+	console.log(images)
+
 	// ✨ ✨✨ ✨✨ ✨✨ ✨
 
 	let loading = false
@@ -28,190 +25,48 @@
 	let uniqueCategories = new Set(productData.map((product) => product.category))
 	let selectedCategory = ''
 	let selectedProduct = null
-	let showCategorySelection = false
-	let selectedSize
 	let showModal = false
 	let productImages = []
 	let currentImageIndex = 0
 	let intervalId
 
-	let storeFrontSpace = {
-		product_id: '',
-		item_name: '',
-		description: '',
-		price: '',
-		size_id: '',
-		category: '',
-		quantity: '',
-		images: []
-	}
-
-	// ✨ ✨✨ ✨✨ ✨✨ ✨
-
-	// Handle category selection when a tab is clicked
 	function handleCategorySelection(category) {
-		selectedCategory = category // Update the selected category
+		selectedCategory = category
 	}
-
-	// ✨ ✨✨ ✨✨ ✨✨ ✨
-
-	async function handleSizeSelection() {
-		selectedSize = sizeData.find((size) => size.size_id === storeFrontSpace.size_id)
-		selectedProduct = productData.find(
-			(product) => product.product_id === storeFrontSpace.product_id
-		)
-	}
-
-	// ✨ ✨✨ ✨✨ ✨✨ ✨
-
-	async function handleProductSelection(event) {
-		selectedProduct = event.target.options[event.target.selectedIndex]
-		const selectedProductId = selectedProduct.value
-
-		// Filter the product inventory for the selected product
-		matchingInventory = productInventory.filter(
-			(inventory) => inventory.product_id === parseInt(selectedProductId)
-		)
-
-		const availableSizes = matchingInventory.map((inventory) => {
-			const size = sizeData.find((size) => size.size_id === inventory.size_id)
-			return size ? size.size_name : ' N/A'
-		})
-
-		// Update the storeFrontSpace object with product details
-		storeFrontSpace = {
-			...storeFrontSpace,
-			product_id: selectedProductId,
-			item_name: selectedProduct.getAttribute('data-name'),
-			description: selectedProduct.getAttribute('data-description'),
-			price: selectedProduct.getAttribute('data-price'),
-			category: selectedProduct.getAttribute('data-category'),
-			images: [selectedProduct.getAttribute('data-image')],
-			sizes: availableSizes
-		}
-	}
-
-	// ✨ ✨✨ ✨✨ ✨✨ ✨
-
-	const hasMatchingImage = async (itemName) => {
-		const sanitizedItemName = itemName
-			.replace(/[^a-zA-Z0-9-_ ]/g, '')
-			.trim()
-			.toLowerCase()
-
-		if (!images || !Array.isArray(images) || images.length === 0) {
-			return null
-		}
-
-		const matchingFolder = images.find((folder) => {
-			const folderName = decodeURIComponent(folder.name.trim().toLowerCase())
-			return folderName === sanitizedItemName
-		})
-
-		if (
-			!matchingFolder ||
-			!Array.isArray(matchingFolder.images) ||
-			matchingFolder.images.length === 0
-		) {
-			return null
-		}
-
-		const firstMatchingImage = matchingFolder.images[0]
-		const imageUrl = `https://vyzeudiywhlxdzpnfehs.supabase.co/storage/v1/object/public/Gallery/items/${matchingFolder.name}/${firstMatchingImage.name}`
-
-		return imageUrl
-	}
-
-	// ✨ ✨✨ ✨✨ ✨✨ ✨
 
 	const nextImage = () => {
-		if (productImages && productImages.length > 0) {
+		if (productImages.length) {
 			currentImageIndex = (currentImageIndex + 1) % productImages.length
 		}
 	}
 
 	const prevImage = () => {
-		if (productImages && productImages.length > 0) {
+		if (productImages.length) {
 			currentImageIndex = (currentImageIndex - 1 + productImages.length) % productImages.length
 		}
 	}
 
-	// ✨ ✨✨ ✨✨ ✨✨ ✨
-
-	// Start auto-slide every 20 seconds.
 	const startAutoSlide = () => {
-		stopAutoSlide() // Ensure no duplicate intervals
-		intervalId = setInterval(nextImage, 3000) // Change image every 20 seconds
+		stopAutoSlide()
+		intervalId = setInterval(nextImage, 3000)
 	}
 
-	// Stop the auto-slide when the modal is closed.
 	const stopAutoSlide = () => {
 		if (intervalId) clearInterval(intervalId)
 	}
 
-	// ✨ ✨✨ ✨✨ ✨✨ ✨
-
-	// Fetch all images in the matching folder.
-	const getImagesFromFolder = async (itemName) => {
-		const sanitizedItemName = itemName
-			.replace(/[^a-zA-Z0-9-_ ]/g, '')
-			.trim()
-			.toLowerCase()
-
-		if (!images || !Array.isArray(images) || images.length === 0) {
-			return []
-		}
-
-		const matchingFolder = images.find((folder) => {
-			const folderName = decodeURIComponent(folder.name.trim().toLowerCase())
-			return folderName === sanitizedItemName
-		})
-
-		if (!matchingFolder || !Array.isArray(matchingFolder.images)) {
-			return []
-		}
-
-		// Construct URLs for each image in the folder.
-		return matchingFolder.images.map(
-			(img) =>
-				`https://vyzeudiywhlxdzpnfehs.supabase.co/storage/v1/object/public/Gallery/items/${matchingFolder.name}/${img.name}`
-		)
-	}
-
-	// ✨ ✨✨ ✨✨ ✨✨ ✨
-
-	// Trigger modal and load images.
 	const handleCardClick = async (product) => {
 		selectedProduct = product
-
 		showModal = true
-
-		productImages = await getImagesFromFolder(product.item_name)
-
+		productImages = await getImages(product.item_name, images)
 		currentImageIndex = 0
-
-		// Ensure matchingInventory is set based on the product_id
-		matchingInventory = productInventory.filter(
-			(inventory) => inventory.product_id === product.product_id
-		)
-
+		matchingInventory = productInventory(productInventory, product.product_id)
 		startAutoSlide()
 	}
 
-	// ✨ ✨✨ ✨✨ ✨✨ ✨
-
-	// Filter products based on the selected category
 	$: filteredProducts = productData.filter((product) => product.category === selectedCategory)
 
 	$: if (!showModal) stopAutoSlide()
-
-	// ✨ ✨✨ ✨✨ ✨✨ ✨
-
-	// Function to get the first matching image URL
-	const getFirstMatchingImage = async (itemName) => {
-		const imageUrl = await hasMatchingImage(itemName)
-		return imageUrl
-	}
 </script>
 
 <svelte:head>
@@ -223,6 +78,7 @@
 		<h1>Shop by Category</h1>
 	</header>
 
+	<p>Select a category:</p>
 	<section>
 		{#if uniqueCategories.size > 0}
 			<div class="tabs">
@@ -237,7 +93,6 @@
 			</div>
 		{/if}
 		{#if selectedCategory}
-			<h3>Items in {selectedCategory}:</h3>
 			<div class="scroll-container">
 				<div class="horizontal-grid">
 					{#each filteredProducts as product}
@@ -247,11 +102,12 @@
 							aria-label={`View details for ${product.item_name}`}
 							on:click={() => handleCardClick(product)}
 						>
-							{#await getFirstMatchingImage(product.item_name) then imageUrl}
+							{#await getImages(product.item_name, images, true) then imageUrl}
 								<img src={imageUrl} alt={product.item_name} />
 							{:catch}
 								<img src={MeBase} alt="Default product" />
 							{/await}
+
 							<h4>{product.item_name}</h4>
 						</button>
 					{/each}
@@ -309,53 +165,41 @@
 		all: unset;
 	}
 
+	.tabs button,
+	.head_Line {
+		z-index: 420;
+	}
+
 	.tabs {
 		display: flex;
-		gap: 10px;
+		flex-direction: column;
+		gap: var(--gap);
 		margin-bottom: 20px;
-		margin-left: 20vw;
+
+		@media screen and (min-width: 768px) {
+			flex-direction: row;
+			margin-left: 10vw;
+		}
 
 		& button {
-			padding: 10px 20px;
+			padding: var(--space);
+			margin: var(--space);
 			border: none;
-			background-color: var(--back_Tre);
-			border-radius: 5px;
+			background-color: var(--grabber);
+			border-radius: var(--rad);
 			cursor: pointer;
 			transition:
 				background-color 0.3s,
 				color 0.3s;
 
 			&&:hover {
-				background-color: var(--highlight);
+				background-color: var(--grabber_Alt);
 			}
 
 			&&.active-tab {
-				background-color: var(--grabber);
+				background-color: var(--highlight);
 			}
 		}
-	}
-
-	/* Pseudo-elements for blur effect */
-	.scroll-container::before,
-	.scroll-container::after {
-		content: '';
-		position: absolute;
-		height: 150%;
-		top: 0;
-		bottom: 0;
-		width: 20%; /* Adjust width as needed */
-		pointer-events: none; /* Allow clicks to pass through */
-		z-index: 1;
-	}
-
-	.scroll-container::before {
-		left: 0;
-		background: linear-gradient(to right, var(--back_Main), rgba(255, 255, 255, 0));
-	}
-
-	.scroll-container::after {
-		right: 0;
-		background: linear-gradient(to left, var(--back_Main), rgba(255, 255, 255, 0));
 	}
 
 	.horizontal-grid {
@@ -366,6 +210,30 @@
 		gap: var(--pad);
 		overflow-x: auto;
 		scroll-snap-type: x mandatory;
+		position: relative; /* Ensure pseudo-elements are positioned within the grid */
+	}
+
+	/* Pseudo-elements for blur effect */
+	.horizontal-grid::before,
+	.horizontal-grid::after {
+		content: '';
+		position: fixed;
+		top: 0;
+		bottom: 0;
+		height: 100%;
+		width: 20%; /* Adjust width as needed */
+		pointer-events: none; /* Allow clicks to pass through */
+		z-index: 1;
+	}
+
+	.horizontal-grid::before {
+		left: 0;
+		background: linear-gradient(to right, var(--back_Main), rgba(255, 255, 255, 0));
+	}
+
+	.horizontal-grid::after {
+		right: 0;
+		background: linear-gradient(to left, var(--back_Main), rgba(255, 255, 255, 0));
 	}
 
 	/* Card Styling */
@@ -397,6 +265,11 @@
 		cursor: pointer;
 	}
 
+	.modal-background {
+		position: fixed;
+		z-index: 777;
+	}
+
 	.carousel {
 		& img {
 			max-width: 100%;
@@ -409,6 +282,9 @@
 		& button {
 			background: var(--back_Tre);
 			padding: var(--space);
+			width: 10px;
+			border: var(--bord);
+			border-radius: var(--rad);
 
 			&:hover {
 				background: var(--grabber);

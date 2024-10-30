@@ -28,6 +28,17 @@
 
 	// Function to get the label from formTypeMap
 	const getFormTypeLabel = (formType) => formTypeMap[formType] || 'Unknown'
+
+	// Function to format the date
+	function formatDate(dateString) {
+		const date = new Date(dateString)
+		return new Intl.DateTimeFormat('en-US', {
+			year: 'numeric',
+			month: 'long',
+			day: 'numeric',
+			hour: '2-digit'
+		}).format(date)
+	}
 </script>
 
 <svelte:head>
@@ -43,15 +54,13 @@
 <p>These are the unread messages:</p>
 
 <div class="summary">
-	<h3>Summary</h3>
-	<table>
+	<table class="desktop-table">
 		<thead>
 			<tr>
 				<th>Form Type</th>
 				<th>Full Name</th>
 				<th>Email</th>
 				<th>Submitted At</th>
-				<th>Actions</th>
 			</tr>
 		</thead>
 		<tbody>
@@ -61,17 +70,30 @@
 					<td>{message.full_name}</td>
 					<td>{message.email}</td>
 					<td>{message.submitted_at}</td>
-					<td><button on:click={() => selectMessage(message)}>View</button></td>
+					<td><button class="ripple-btn" on:click={() => selectMessage(message)}>View</button></td>
 				</tr>
 			{/each}
 		</tbody>
 	</table>
+
+	{#each newMessages as message}
+		<!-- Mobile Stacked Layout -->
+		<div class="mobile-cards">
+			<div class="card">
+				<div><strong>Form Type:</strong> {getFormTypeLabel(message.form_type)}</div>
+				<div><strong>Full Name:</strong> {message.full_name}</div>
+				<div><strong>Email:</strong> {message.email}</div>
+
+				<div><strong>Submitted At:</strong> <br /> {formatDate(message.submitted_at)}</div>
+
+				<button class="ripple-btn" on:click={() => selectMessage(message)}>View</button>
+			</div>
+		</div>
+	{/each}
 </div>
 
 {#if selectedMessage}
 	<div class="detail-grid">
-		<h3>Message Details</h3>
-
 		{#if selectedMessage.form_type}
 			<div><strong>Form Type:</strong> {getFormTypeName(selectedMessage.form_type)}</div>
 		{/if}
@@ -127,7 +149,7 @@
 		{/if}
 
 		{#if selectedMessage.submitted_at}
-			<div><strong>Submitted At:</strong> {selectedMessage.submitted_at}</div>
+			<div><strong>Submitted At:</strong> {formatDate(selectedMessage.submitted_at)}</div>
 		{/if}
 
 		<!-- Has been viewed checkbox -->
@@ -143,18 +165,31 @@
 		</div>
 
 		<!-- Close button (or another event that closes the message) -->
-		<button>Close Message</button>
+		<button on:click={() => (selectedMessage = null)} class="ripple-btn">Close Message</button>
 	</div>
 {/if}
 
 <!-- svelte-ignore css-unused-selector -->
 <style>
 	.summary {
-		margin-bottom: 20px;
+		margin: var(--qtr_Marg);
 	}
+
+	.ripple-btn {
+		margin: 5%;
+	}
+
+	.desktop-table {
+		display: none;
+
+		@media screen and (min-width: 1024px) {
+			display: block;
+		}
+	}
+
 	.summary table {
 		width: 80%;
-		margin: 0 auto;
+		margin: 0;
 		border-collapse: collapse;
 	}
 	.summary th,
@@ -166,17 +201,26 @@
 		background-color: var(--back_Tre);
 	}
 
+	.mobile-cards {
+		display: block;
+
+		@media screen and (min-width: 1024px) {
+			display: none;
+		}
+	}
+
 	.detail-grid {
 		display: grid;
-		grid-template-columns: 1fr 1fr;
+		position: absolute;
+		top: 30vh;
+		width: 100vw;
+		grid-template-columns: 1fr;
 		gap: 1.5rem;
 		max-width: 1200px;
-		margin: 2rem auto;
 		padding: 1.5rem;
 		border-radius: 10px;
-		background-color: var(--background);
-		box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-		font-family: 'Arial', sans-serif;
+		border: var(--bord);
+		background-color: var(--back_Main);
 
 		& :hover {
 			background-color: #f1f1f1;
@@ -202,10 +246,6 @@
 				color: #333;
 				margin-right: 5px;
 			}
-		}
-
-		.full-width {
-			grid-column: span 2;
 		}
 	}
 

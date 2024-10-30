@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { onMount } from 'svelte'
-	import { findMatchingImage } from '$lib/assets/utils/utils'
+	import { findMatchingImage } from '$lib/assets/utils/eve_utils.js'
 
 	export let data
 
@@ -34,6 +34,7 @@
 <svelte:head>
 	<title>West Sound Roller Derby Homepage</title>
 </svelte:head>
+
 <hero>
 	<div class="hero-content">
 		<h1>West Sound Roller Derby</h1>
@@ -55,28 +56,26 @@
 					<p>{nextEvent.description}</p>
 					<p>{nextEvent.event_date.split('T')[0]}</p>
 					<p>{nextEvent.location}</p>
-					<button class="X-button" type="button">BUY TICKETS!</button>
+					<button class="ripple-btn" type="button">BUY TICKETS!</button>
 				</article>
 			{/if}
 		</section>
 		<section class="action_Card">
 			<p>Sub to our letters</p>
-			<button class="X-button" type="button">SIGN UP!</button>
+			<button class="ripple-btn" type="button">SIGN UP!</button>
 			<br />
 			<p>A 501c3 non-profit</p>
-			<button class="X-button" type="button">DONATE!</button>
+			<button class="ripple-btn" type="button">DONATE!</button>
 		</section>
 	</div>
 </hero>
 
 <header class="head_Line">
-	<h1>West Sound Roller Derby</h1>
+	<h1>The best roller derby team in Kitsap County</h1>
 </header>
 
 <section>
 	<article>
-		<h2>The best roller derby team in Kitsap County</h2>
-
 		<p>
 			Welcome to the home of Kitsap County’s premier roller derby team! We are a passionate group of
 			athletes dedicated to the sport of flat track roller derby. Our mission is to foster
@@ -104,47 +103,54 @@
 <!--svelte-ignore css-unused-selector -->
 <style>
 	hero {
-		position: relative;
 		display: flex;
+		position: relative;
 		height: 100%;
-		width: 100%;
+		width: 100vw;
 		align-items: center;
 		justify-content: center;
 		text-align: center;
-		background-image: url('$lib/assets/img/inHomeBase.jpg');
+		background-image: url('$lib/assets/img/wsrdTeamShot.jpg');
 		background-repeat: no-repeat;
 		background-size: cover;
 		background-position: center;
 		background-attachment: fixed;
-		margin-top: 10%;
+		z-index: 999;
 	}
 
 	.hero-content {
 		background: var(--back_Hallow_Dark);
 		padding: var(--space_Sm);
 
+		& h1,
+		& h2,
+		p {
+			margin: var(--space) 0;
+		}
+
 		& img {
 			width: 80%;
 			border-radius: var(--rad);
-		}
-	}
-	.X-button {
-		background-color: var(--grabber);
-		color: var(--text_Main);
-		padding: var(--space_M);
-		border: none;
-		border-radius: var(--rad);
-		cursor: pointer;
-	}
-	.X-button:hover {
-		background-color: var(--grabber_Alt);
-	}
 
-	.head_Line {
-		margin: 10vh auto;
+			@media (min-width: 768px) {
+				width: 50%;
+			}
+		}
 
 		@media screen and (min-width: 768px) {
-			margin: 15vh auto;
+			& h1,
+			& h2,
+			p {
+				margin: var(--space_Sm) 0;
+			}
+		}
+
+		@media screen and (min-width: 1024px) {
+			& h1,
+			& h2,
+			p {
+				margin: var(--space) 0;
+			}
 		}
 	}
 </style>

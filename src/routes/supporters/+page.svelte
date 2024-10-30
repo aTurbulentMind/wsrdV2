@@ -1,6 +1,12 @@
-<main>
-	<h1>People of Derby</h1>
+<svelte:head>
+	<title>Support</title>
+</svelte:head>
 
+<div class="head_Line">
+	<h1>Supporters</h1>
+</div>
+
+<main>
 	<p>
 		Volunteer Opportunities Do you have a creative side? Join our bout production crew and help out
 		by coordinating halftime events and activities. ​ Got promotional or web design ideas? Let us
