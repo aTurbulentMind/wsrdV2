@@ -49,19 +49,11 @@
     }
 
     h1 {
-        font-size: var(--f_Xl);
+        font-size: var(--f_Lg);
         }
 
-    h2 {
-        font-size: var(--f_Lg);
-    }
-
-    h3 {
-        font-size: var(--f_M);
-    }
-
     p {
-        font-size: var(--font);
+        font-size: var(--f_Sm);
     }
 
     .altFont {
