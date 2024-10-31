@@ -1,11 +1,9 @@
-<script lang="ts">
-	import { onMount, onDestroy } from 'svelte'
+<script>
+	import { findMatchingEvent, generatePublicUrl } from '$lib/assets/utils/eve_utils'
 
 	export let data
-	let { supabase, profile, folders, existingEvents } = data
-	$: ({ supabase, profile, folders, existingEvents } = data)
-
-	console.log(existingEvents)
+	let { supabase, folders, existingEvents } = data
+	$: ({ supabase, folders, existingEvents } = data)
 
 	let showModal = false
 	let selectedGallery = ''
@@ -20,20 +18,6 @@
 		images: []
 	}
 
-	// Function to sanitize names (removing special characters, making lowercase)
-	const sanitizeName = (name) => name.replace(/[^a-zA-Z0-9-_ ]/g, '').toLowerCase()
-
-	// Function to find the matching event based on gallery name
-	const findMatchingEvent = (galleryName) => {
-		const sanitizedGalleryName = sanitizeName(galleryName)
-
-		// Check if any event name matches the sanitized gallery name
-		return existingEvents.find((event) => {
-			const sanitizedEventName = sanitizeName(event.event_name)
-			return sanitizedGalleryName === sanitizedEventName
-		})
-	}
-
 	async function showGalleryDetails(galleryName) {
 		try {
 			const { data, error } = await supabase.storage
@@ -46,21 +30,18 @@
 			}
 
 			if (data && data.length > 0) {
-				selectedGalleryImages = data.map((file) => {
-					const publicURL = `https://vyzeudiywhlxdzpnfehs.supabase.co/storage/v1/object/public/Gallery/bout_photos/${galleryName}/${file.name}`
-					return publicURL
-				})
+				selectedGalleryImages = data.map((file) =>
+					generatePublicUrl(`bout_photos/${galleryName}`, file.name)
+				)
 			} else {
 				console.log('No images found in gallery:', galleryName)
 			}
 
-			// Try to find the matching event
-			const matchingEvent = findMatchingEvent(galleryName)
+			const matchingEvent = findMatchingEvent(existingEvents, galleryName)
 
 			if (matchingEvent) {
 				console.log('Matching event found:', matchingEvent)
 
-				// Display event details
 				eventForm = {
 					...eventForm,
 					event_name: matchingEvent.event_name,
@@ -71,7 +52,7 @@
 				}
 			} else {
 				console.log('No matching event found for this gallery')
-				eventForm = {} // Clear the form if no match is found
+				eventForm = {}
 			}
 
 			selectedGallery = galleryName
@@ -106,6 +87,7 @@
 						aria-label="View details for {folder.name}"
 						on:click={() => showGalleryDetails(folder.name)}
 					>
+						<img src={folder.thumbnailUrl || MeBase} alt="Event Thumbnail" />
 						<h2>{folder.name}</h2>
 					</button>
 				{/each}

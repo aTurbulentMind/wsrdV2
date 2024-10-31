@@ -19,5 +19,3 @@ export const load: PageServerLoad = async ({ locals: { supabase, safeGetSession 
     return { session: null, existingEvents: [], images: [], error: error.message };
   }
 };
-
-
