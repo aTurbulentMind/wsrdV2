@@ -54,7 +54,7 @@
 				</span>
 			{/if}
 			<div>
-				<button>
+				<button class="ripple-btn">
 					{loading ? 'Loading' : 'Send link'}
 				</button>
 			</div>
