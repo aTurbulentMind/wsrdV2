@@ -1,0 +1,285 @@
+/* grids */
+.grid{
+    display: grid;
+    grid-template-columns: 1fr;
+    align-items: center;
+    gap: var(--space);
+    padding: var(--space);
+
+        @media screen and  (min-width: 769px) {
+            grid-template-columns: 1fr 1fr ;
+        }
+
+        @media screen and  (min-width: 1024px) {
+            margin: 0 10vw;
+        }
+}
+
+/* Border Caps */
+.bord_Caps {
+    border-top: var(--bord);
+    border-bottom: var(--bord);
+    text-shadow: none;
+    margin: 5vh 0 5vh 15vw;
+}
+
+/* blurred background */
+.glass_Back{
+    background: var(--back_Hallow_Dark);
+    box-shadow: var(--box_Shadow);
+    backdrop-filter: blur(3px);
+    -webkit-backdrop-filter: blur(3px);
+    border-radius: var(--rad);
+    border:var(--bord);
+    height: fit-content;
+    width: fit-content;
+	max-width: 90%;
+    padding: var(--space);
+}
+
+/* Headline */
+.head_Line {
+	position: relative;
+	width: fit-content;
+    text-align: center;
+    margin: 10vh 10vw ;
+	border: var(--bord);
+    border-radius:var(--rad) ;
+    cursor: default;
+    
+	& h1 {
+        text-transform: capitalize;
+        padding:  1rem 2.5rem;
+        margin: 0;
+    }
+}
+
+ /* Selector  */
+		.selector {
+		background-color: var(--grabber_Alt);
+		color: var(--text_Alt);
+		width: fit-content;
+		border: none;		
+		padding: 15px 20px;
+		margin-left: 15vw;
+		margin-bottom: 15vh;
+		cursor: pointer;
+		margin-bottom: 20vh;
+		border-radius: var(--rad);
+		box-shadow: var(--ddd_Shadow);
+		transform: translateY(-2px);
+
+		& select {
+		background-color: var(--back_Alt);
+		color: var(--text_Alt);
+		border: var(--bord_Alt);
+		border-radius: var(--rad);
+		padding: var(--space_Sm);
+
+		& option {
+		background-color: var(--back_Alt);
+		color: var(--text_Alt);
+		}
+		
+		& :active {
+			box-shadow: 0 2px var(--grabber_Alt);
+			transform: translateY(0);
+		}
+	}
+	}
+	
+	/* form */
+.sendableForm {
+		background-color: var(--back_Hallow_Dark);
+		box-shadow: var(--ddd_Shadow);
+		padding:var(--space_Xl);
+		border-radius: var(--rad);
+		max-width: 600px;
+		width: 100%;
+		text-align: center;
+	
+		& h2 {
+		margin-bottom: var(--space);
+		font-size: var(--f_Xl);
+		color: var(--highlight);
+	}
+	
+	&  label {
+		display: block;
+		margin-bottom: var(--space);
+		font-weight: bold;
+		color: var(--text_Main);
+	}
+
+	.input-group {
+		margin-bottom: var(--space);
+		text-align: left;
+
+		& input,
+		& textarea {
+			width: 100%;
+			padding: var(--space);
+			color: var(--text_Main);
+			margin-top: var(--space_Sm);
+			border:  var(--bord_Alt);
+			border-radius:var(--rad);
+			background-color: var(--back_Hallow);
+			transition: border-color 0.3s;
+		}
+
+		& input:focus,
+		& textarea:focus {
+			border-color: var(--highlight);
+			outline: none;
+		}
+	}
+
+	.radio-group {
+		margin-bottom: var(--space);
+		width: 60%;
+		margin: 5% auto;
+	
+
+	&  label {
+		display: block;
+		margin: 0.3rem 0;
+		cursor: pointer;
+	}
+
+	&  input {
+		margin-right:var(--space_Sm);
+	}
+	}
+
+	fieldset {
+		border-radius: var(--rad);
+		border: var(--bord_Alt);
+	}
+	
+	/* Style the text inside the date input */
+	input[type='date'] {
+		color: var(--back_Other);
+		font-family: inherit;
+	}
+
+	/* Change background and border for better contrast if needed */
+	input[type='date']::-webkit-calendar-picker-indicator {
+		filter: invert(1); /* Optional: Invert colors if needed */
+	}	
+
+	aside {
+		margin-top:var(--space);
+		font-size: var(--f_Sm);
+		color: var(--back_Other);
+	}
+	}
+
+	/* Modal Structure */
+	.modal-background {
+		position: fixed;
+		top: 0;
+		left: 0;
+		width: 100%;
+		height: 100%;
+		background: var(--back_Hallow_Dark);
+		display: flex;
+		justify-content: center;
+		align-items: center;
+	}
+
+	.modal {
+		background: var(--extra);
+		width: 80vw;
+		height: fit-content;
+		max-height: 80vh;
+		padding: var(--space_Xl);
+		border-radius: var(--rad);
+		border: var(--bord);
+		text-align: center;
+		position: relative;
+
+		& h3, h4 {
+			margin: 0 0 8px 0;
+			text-transform: uppercase;
+		}
+
+		& p {
+			margin: 8px 0;
+		}
+		
+		& img {
+			height: 30%;
+			margin-bottom: 10px;
+
+			/* Larger screens */
+			@media only screen and (min-width: 1440px) {
+				height: 40%;
+			}
+		}
+	}
+	
+	.carousel {
+		position: relative;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+
+		& img {
+			max-width: 100%;
+			max-height: 300px;
+			border-radius: 8px;
+		}
+
+		& button {
+			background: var(--back_Tre);
+			border: none;
+			padding: 10px 20px;
+			border-radius: 5px;
+			cursor: pointer;
+			margin-top: 16px;
+			font-size: 16px;
+			transition: background 0.3s;
+
+			&:hover {
+				background: var(--grabber);
+			}
+		}
+	}
+
+  /* Buttons  */
+	
+	.ripple-btn {
+		background-color: #e67e22;
+		color: white;
+		border: none;
+		padding: 10px 20px;
+		border-radius: 5px;
+		overflow: hidden;
+		cursor: pointer;
+		position: relative;
+	}
+
+	.ripple-btn::after {
+		content: '';
+		position: absolute;
+		background: rgba(255, 255, 255, 0.5);
+		border-radius: 50%;
+		width: 100px;
+		height: 100px;
+		top: 50%;
+		left: 50%;
+		transform: translate(-50%, -50%) scale(0);
+		opacity: 0;
+		transition:
+			transform 0.5s,
+			opacity 0.5s;
+	}
+
+	.ripple-btn:active::after {
+		transform: translate(-50%, -50%) scale(1);
+		opacity: 1;
+	}
+
+
+
+	
