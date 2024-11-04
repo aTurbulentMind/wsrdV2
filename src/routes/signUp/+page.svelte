@@ -61,3 +61,12 @@
 		</div>
 	</div>
 </form>
+
+
+
+<style>
+	.sendableForm {
+		display: flex;
+		margin: 5% auto;
+	}
+</style>
