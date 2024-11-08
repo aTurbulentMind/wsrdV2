@@ -42,53 +42,6 @@
 
 	//➖ ➖ ➖ ➖ ➖ 🦖➖ ➖ ➖ 🌟  🌟  🌟 Functions
 
-	async function handleEventSelection(event) {
-		selectedEventId = event.target.value
-
-		if (!selectedEventId) {
-			return
-		}
-
-		if (images.length === 0) {
-			await fetchEventFlyers()
-		}
-
-		const numericSelectedEventId = Number(selectedEventId)
-		const selectedEvent = existingEvents.find((event) => event.event_id === numericSelectedEventId)
-
-		if (!selectedEvent) {
-			console.error('Selected event not found')
-			return
-		}
-
-		const selectedFolder = folders.find((folder) => folder.name === selectedEvent.event_name)
-
-		if (selectedFolder) {
-			selectedEventImages = selectedFolder.images
-		} else {
-			selectedEventImages = []
-			console.log('No folder found for the selected event')
-		}
-
-		eventForm = {
-			...eventForm,
-			event_name: selectedEvent.event_name,
-			event_date: new Date(selectedEvent.event_date).toISOString().slice(0, 10),
-			location: selectedEvent.location,
-			description: selectedEvent.description,
-			status_id: selectedEvent.status_id.toString()
-		}
-
-		const matchingImage = findMatchingImage(selectedEvent.event_name, images)
-
-		if (matchingImage) {
-			eventForm.event_image = matchingImage.url
-		} else {
-			eventForm.event_image = ''
-			console.log('No matching image URL found')
-		}
-	}
-
 	//➖ ➖ ➖ ➖ ➖ 🦖➖ ➖ ➖ 🌟  🌟  🌟
 	// Sort events: matched events first
 	const sortedEvents = [...existingEvents].sort((a, b) => {
