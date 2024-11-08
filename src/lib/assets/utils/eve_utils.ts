@@ -125,6 +125,40 @@ export const fetchImagesWithPagination = async (supabase, folderName, page, limi
 
 	//➖ ➖ ➖ ➖ ➖ 🦖➖ ➖ ➖ 🌟  🌟  🌟
 
+  export const handleEventSelection = async (supabase, selectedEventId, existingEvents, images, folders) => {
+  if (!selectedEventId) {
+    return { eventForm: {}, selectedEventImages: [] };
+  }
+
+  if (images.length === 0) {
+    await fetchEventFlyers();
+  }
+
+  const numericSelectedEventId = Number(selectedEventId);
+  const selectedEvent = existingEvents.find((event) => event.event_id === numericSelectedEventId);
+
+  if (!selectedEvent) {
+    console.error('Selected event not found');
+    return { eventForm: {}, selectedEventImages: [] };
+  }
+
+  const selectedFolder = folders.find((folder) => folder.name === selectedEvent.event_name);
+  const selectedEventImages = selectedFolder ? selectedFolder.images : [];
+
+  const eventForm = {
+    event_name: selectedEvent.event_name,
+    event_date: new Date(selectedEvent.event_date).toISOString().slice(0, 10),
+    location: selectedEvent.location,
+    description: selectedEvent.description,
+    status_id: selectedEvent.status_id.toString(),
+    event_image: findMatchingImage(selectedEvent.event_name, images)?.url || ''
+  };
+
+  return { eventForm, selectedEventImages };
+};
+  
+	//➖ ➖ ➖ ➖ ➖ 🦖➖ ➖ ➖ 🌟  🌟  🌟
+
 export const uploadFlyerImage = async (supabase, sanitizedName, image) => {
   const filePath = `event_Flyer/${sanitizedName}`;
   const { error } = await supabase.storage
