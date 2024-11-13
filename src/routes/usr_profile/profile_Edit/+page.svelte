@@ -28,7 +28,7 @@
 </script>
 
 <div class="head_Line">
-	<h1>Modify Your Profile</h1>
+	<h1>Modify Your Roster Card</h1>
 </div>
 
 <form

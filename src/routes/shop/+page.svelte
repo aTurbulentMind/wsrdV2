@@ -9,7 +9,7 @@
 	import { getImages, fetchProductsAndImages } from '$lib/assets/utils/itm_utils'
 	import { onDestroy } from 'svelte'
 
-	// ✨ ✨✨ ✨✨ ✨✨ ✨
+	//➖ ➖ ➖ ➖ ➖ 🦖➖ ➖ ➖ 🌟  🌟  🌟
 
 	export let data: {
 		session: any
@@ -28,6 +28,8 @@
 	let { session, productData, productInventory, sizeData, images } = data
 	$: ({ session, productData, productInventory, sizeData, images } = data)
 
+	//➖ ➖ ➖ ➖ ➖ 🦖➖ ➖ ➖ 🌟  🌟  🌟
+
 	let loading = false
 	let matchingInventory = {}
 	let uniqueCategories = new Set(productData.map((product) => product.category))
@@ -38,9 +40,13 @@
 	let currentImageIndex = 0
 	let intervalId
 
+	//➖ ➖ ➖ ➖ ➖ 🦖➖ ➖ ➖ 🌟  🌟  🌟
+
 	function handleCategorySelection(category) {
 		selectedCategory = category
 	}
+
+	//➖ ➖ ➖ ➖ ➖ 🦖➖ ➖ ➖ 🌟  🌟  🌟
 
 	const nextImage = () => {
 		if (productImages.length) {
@@ -54,6 +60,8 @@
 		}
 	}
 
+	//➖ ➖ ➖ ➖ ➖ 🦖➖ ➖ ➖ 🌟  🌟  🌟
+
 	const startAutoSlide = () => {
 		stopAutoSlide()
 		intervalId = setInterval(nextImage, 3000)
@@ -62,6 +70,8 @@
 	const stopAutoSlide = () => {
 		if (intervalId) clearInterval(intervalId)
 	}
+
+	//➖ ➖ ➖ ➖ ➖ 🦖➖ ➖ ➖ 🌟  🌟  🌟
 
 	const handleCardClick = async (product) => {
 		selectedProduct = product
@@ -78,6 +88,8 @@
 		)
 		startAutoSlide()
 	}
+
+	//➖ ➖ ➖ ➖ ➖ 🦖➖ ➖ ➖ 🌟  🌟  🌟
 
 	$: filteredProducts = productData.filter((product) => product.category === selectedCategory)
 

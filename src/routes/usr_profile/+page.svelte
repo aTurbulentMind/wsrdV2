@@ -3,12 +3,18 @@
 	import { enhance } from '$app/forms'
 	import { invalidate } from '$app/navigation'
 
+	//➖ ➖ ➖ ➖ ➖ 🦖➖ ➖ ➖ 🌟  🌟  🌟
+
 	export let data
 
 	let { session, newMessages } = data
 	$: ({ session, newMessages } = data)
 
+	//➖ ➖ ➖ ➖ ➖ 🦖➖ ➖ ➖ 🌟  🌟  🌟
+
 	let selectedMessage = null
+
+	//➖ ➖ ➖ ➖ ➖ 🦖➖ ➖ ➖ 🌟  🌟  🌟
 
 	// Define your formTypeMap
 	const formTypeMap = {
@@ -17,9 +23,13 @@
 		3: 'bouting'
 	}
 
+	//➖ ➖ ➖ ➖ ➖ 🦖➖ ➖ ➖ 🌟  🌟  🌟
+
 	const selectMessage = (message) => {
 		selectedMessage = message
 	}
+
+	//➖ ➖ ➖ ➖ ➖ 🦖➖ ➖ ➖ 🌟  🌟  🌟
 
 	// Function to get the form type name based on form_type value
 	function getFormTypeName(form_type) {
@@ -28,6 +38,8 @@
 
 	// Function to get the label from formTypeMap
 	const getFormTypeLabel = (formType) => formTypeMap[formType] || 'Unknown'
+
+	//➖ ➖ ➖ ➖ ➖ 🦖➖ ➖ ➖ 🌟  🌟  🌟
 
 	// Function to format the date
 	function formatDate(dateString) {

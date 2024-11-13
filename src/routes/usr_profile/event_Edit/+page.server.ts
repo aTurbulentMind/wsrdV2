@@ -7,13 +7,22 @@ export const load: PageServerLoad = async ({ locals: { supabase, safeGetSession 
 
   const { data: userData, error: userError } = await supabase.auth.getUser();
 
+	//➖ ➖ ➖ ➖ ➖ 🦖➖ ➖ ➖ 🌟  🌟  🌟
+
+
   if (userError || !userData.user) {
     console.error('Failed to validate user:', userError?.message);
     throw redirect(303, '/'); 
   }
 
+	//➖ ➖ ➖ ➖ ➖ 🦖➖ ➖ ➖ 🌟  🌟  🌟
+
+
   try {
     const { existingEvents, folders, images, error } = await fetchEventsAndImages(supabase);
+
+	//➖ ➖ ➖ ➖ ➖ 🦖➖ ➖ ➖ 🌟  🌟  🌟
+
 
     if (error) {
       console.error('Error fetching data:', error);
@@ -29,10 +38,19 @@ export const load: PageServerLoad = async ({ locals: { supabase, safeGetSession 
 export const actions: Actions = {
   submit: async ({ request, locals: { supabase, safeGetSession } }) => {
     const { session } = await safeGetSession();
+
+	//➖ ➖ ➖ ➖ ➖ 🦖➖ ➖ ➖ 🌟  🌟  🌟
+
     if (!session) return fail(401, { error: 'Unauthorized' });
+
+	//➖ ➖ ➖ ➖ ➖ 🦖➖ ➖ ➖ 🌟  🌟  🌟
+
 
     const formData = await request.formData();
     const eventHub = formData.get('eventHub');
+
+	//➖ ➖ ➖ ➖ ➖ 🦖➖ ➖ ➖ 🌟  🌟  🌟
+
 
     const eventData = {
       event_name: formData.get('event_name'),
@@ -42,10 +60,16 @@ export const actions: Actions = {
       status_id: formData.get('status_id'),
     };
 
+	//➖ ➖ ➖ ➖ ➖ 🦖➖ ➖ ➖ 🌟  🌟  🌟
+
+
     let operationError;
     const images = formData.getAll('images');
     const sanitizedEventName = sanitizeEventName(eventData.event_name);
     const uploadErrors = [];
+
+	//➖ ➖ ➖ ➖ ➖ 🦖➖ ➖ ➖ 🌟  🌟  🌟
+
 
     if (eventHub === 'New') {
       const { data: newEvent, error: insertError } = await supabase
@@ -62,7 +86,11 @@ export const actions: Actions = {
         }
       }
 
-    } else if (eventHub === 'Edit') {
+    } 
+
+	//➖ ➖ ➖ ➖ ➖ 🦖➖ ➖ ➖ 🌟  🌟  🌟
+
+  else if (eventHub === 'Edit') {
       const id = formData.get('event_id');
     
       ({ error: operationError } = await supabase.from('events').update(eventData).eq('event_id', id));

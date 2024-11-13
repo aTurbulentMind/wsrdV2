@@ -2,9 +2,13 @@
 	import { findMatchingEvent, fetchImagesWithPagination } from '$lib/assets/utils/eve_utils'
 	import MeBase from '$lib/assets/img/meBase.jpg'
 
+	//➖ ➖ ➖ ➖ ➖ 🦖➖ ➖ ➖ 🌟  🌟  🌟
+
 	export let data
 	let { folders, existingEvents } = data
 	$: ({ existingEvents, folders } = data)
+
+	//➖ ➖ ➖ ➖ ➖ 🦖➖ ➖ ➖ 🌟  🌟  🌟
 
 	let showModal = false
 	let selectedGallery = ''
@@ -18,6 +22,8 @@
 		status_id: '',
 		images: []
 	}
+
+	//➖ ➖ ➖ ➖ ➖ 🦖➖ ➖ ➖ 🌟  🌟  🌟
 
 	// Display gallery details and event info based on the selected gallery
 	async function showGalleryDetails(galleryName, page = 0, limit = 10) {

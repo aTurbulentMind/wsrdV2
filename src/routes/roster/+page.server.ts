@@ -9,6 +9,8 @@ export const load: PageServerLoad = async ({ url, locals: { supabase, safeGetSes
     console.log('User is already logged in');
   }
 
+	//➖ ➖ ➖ ➖ ➖ 🦖➖ ➖ ➖ 🌟  🌟  🌟
+
   try {
     // Fetch roster from Supabase
     const { data: skater, error } = await supabase
@@ -19,6 +21,8 @@ export const load: PageServerLoad = async ({ url, locals: { supabase, safeGetSes
       console.error('Error fetching roster:', error.message);
       return { skater: [] };
     }
+
+	//➖ ➖ ➖ ➖ ➖ 🦖➖ ➖ ➖ 🌟  🌟  🌟
 
     const { data: profile, error: profileError } = await supabase
       .from('profiles')
@@ -31,7 +35,7 @@ export const load: PageServerLoad = async ({ url, locals: { supabase, safeGetSes
       return { profile: null }; 
     }
 
-    console.log('Profile loaded:', profile);
+	//➖ ➖ ➖ ➖ ➖ 🦖➖ ➖ ➖ 🌟  🌟  🌟
 
     return { skater, profile };
   } catch (err) {

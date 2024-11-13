@@ -1,6 +1,9 @@
 import { redirect, fail } from '@sveltejs/kit'
 import type { Actions, PageServerLoad } from './$types'
 
+	//➖ ➖ ➖ ➖ ➖ 🦖➖ ➖ ➖ 🌟  🌟  🌟
+
+
 export const actions: Actions = {
      submit: async ({ request, locals: { supabase, safeGetSession } }) => {
         const { session } = await safeGetSession();
@@ -8,6 +11,9 @@ export const actions: Actions = {
         if (!session) {
             return fail(401, { error: 'Unauthorized' });
         }
+
+	//➖ ➖ ➖ ➖ ➖ 🦖➖ ➖ ➖ 🌟  🌟  🌟
+
 
         const formData = await request.formData();
         const formTypeMap = {
@@ -17,6 +23,9 @@ export const actions: Actions = {
         };
 
         const formType = formTypeMap[formData.get('formType')];
+
+	//➖ ➖ ➖ ➖ ➖ 🦖➖ ➖ ➖ 🌟  🌟  🌟
+
 
         const submissionData = {
             form_type: formType,
@@ -32,6 +41,9 @@ export const actions: Actions = {
             played_together: formData.get('playedTogether') === 'on',
             comments: formData.get('comments')
         };
+
+	//➖ ➖ ➖ ➖ ➖ 🦖➖ ➖ ➖ 🌟  🌟  🌟
+
 
         try {
             await supabase.from('form_submissions').insert(submissionData);

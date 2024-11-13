@@ -17,6 +17,9 @@
 		<li aria-current={$page.url.pathname === '/usr_profile/warehouse_Edit' ? 'page' : undefined}>
 			<a href="/usr_profile/warehouse_Edit">Warehouse</a>
 		</li>
+		<li aria-current={$page.url.pathname === '/usr_profile/helper' ? 'page' : undefined}>
+			<a href="/usr_profile/helper">Helper</a>
+		</li>
 	</ul>
 </aside>
 <slot />

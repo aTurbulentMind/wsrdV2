@@ -5,11 +5,15 @@
 
 	import Avatar from '$lib/assets/tools/Avatar.svelte'
 
+	//➖ ➖ ➖ ➖ ➖ 🦖➖ ➖ ➖ 🌟  🌟  🌟
+
 	export let data
 	export let form
 
 	let { session, supabase, profile } = data
 	$: ({ session, supabase, profile } = data)
+
+	//➖ ➖ ➖ ➖ ➖ 🦖➖ ➖ ➖ 🌟  🌟  🌟
 
 	let profileForm: HTMLFormElement
 	let loading = false
@@ -17,6 +21,8 @@
 	let username: string = profile?.username ?? ''
 	let contact: string = profile?.contact ?? ''
 	let avatarUrl: string = profile?.avatar_url ?? ''
+
+	//➖ ➖ ➖ ➖ ➖ 🦖➖ ➖ ➖ 🌟  🌟  🌟
 
 	const handleSubmit: SubmitFunction = () => {
 		loading = true
@@ -50,6 +56,8 @@
 	bind:this={profileForm}
 >
 	<h2>Profile info</h2>
+
+	<p>This is your account info for the admin to see and reach out to you</p>
 
 	<Avatar
 		{supabase}

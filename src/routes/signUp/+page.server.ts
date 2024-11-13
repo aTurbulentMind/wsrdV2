@@ -4,6 +4,8 @@ import type { Actions, PageServerLoad } from './$types'
 export const load: PageServerLoad = async ({ url, locals: { safeGetSession } }) => {
   const { session } = await safeGetSession()
 
+	//➖ ➖ ➖ ➖ ➖ 🦖➖ ➖ ➖ 🌟  🌟  🌟
+
   // if the user is already logged in return them to the account page
   if (session) {
     redirect(303, '/account')
@@ -11,6 +13,8 @@ export const load: PageServerLoad = async ({ url, locals: { safeGetSession } }) 
 
   return { url: url.origin }
 }
+
+	//➖ ➖ ➖ ➖ ➖ 🦖➖ ➖ ➖ 🌟  🌟  🌟
 
 export const actions: Actions = {
   default: async (event) => {
@@ -27,7 +31,11 @@ export const actions: Actions = {
       return fail(400, { errors: { email: 'Please enter a valid email address' }, email })
     }
 
+	//➖ ➖ ➖ ➖ ➖ 🦖➖ ➖ ➖ 🌟  🌟  🌟
+
     const { error } = await supabase.auth.signInWithOtp({ email })
+
+	//➖ ➖ ➖ ➖ ➖ 🦖➖ ➖ ➖ 🌟  🌟  🌟
 
     if (error) {
       return fail(400, {

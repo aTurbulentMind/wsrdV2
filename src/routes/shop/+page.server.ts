@@ -8,6 +8,8 @@ export const load: PageServerLoad = async ({ locals: { supabase, safeGetSession 
     try {
         const { session } = await safeGetSession();
 
+	//➖ ➖ ➖ ➖ ➖ 🦖➖ ➖ ➖ 🌟  🌟  🌟
+
         // Fetch products, inventory, sizes, and images
         const { productData, productInventory, sizeData, images, error } = 
             await fetchProductsAndImages(supabase);
@@ -17,6 +19,8 @@ export const load: PageServerLoad = async ({ locals: { supabase, safeGetSession 
             console.error('Error fetching product data:', error);
             return fail(500, { error: 'Failed to load product data' });
         }
+
+	//➖ ➖ ➖ ➖ ➖ 🦖➖ ➖ ➖ 🌟  🌟  🌟
 
         // Return all data to the page
         return {

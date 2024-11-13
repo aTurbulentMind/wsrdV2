@@ -28,7 +28,13 @@ export const actions: Actions = {
     const contact = formData.get('contact') as string
     const avatarUrl = formData.get('avatarUrl') as string
 
+	//➖ ➖ ➖ ➖ ➖ 🦖➖ ➖ ➖ 🌟  🌟  🌟
+
+
     const { session } = await safeGetSession()
+
+	//➖ ➖ ➖ ➖ ➖ 🦖➖ ➖ ➖ 🌟  🌟  🌟
+
 
     const { error } = await supabase.from('profiles').upsert({
       id: session?.user.id,
@@ -55,6 +61,10 @@ export const actions: Actions = {
       avatarUrl,
     }
   },
+
+	//➖ ➖ ➖ ➖ ➖ 🦖➖ ➖ ➖ 🌟  🌟  🌟
+
+
   signout: async ({ locals: { supabase, safeGetSession } }) => {
     const { session } = await safeGetSession()
     if (session) {

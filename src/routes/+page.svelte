@@ -2,10 +2,14 @@
 	import { onMount } from 'svelte'
 	import { findMatchingImage } from '$lib/assets/utils/eve_utils.js'
 
+	//➖ ➖ ➖ ➖ ➖ 🦖➖ ➖ ➖ 🌟  🌟  🌟
+
 	export let data
 
 	let { session, images, existingEvents } = data
 	$: ({ session, existingEvents, images } = data)
+
+	//➖ ➖ ➖ ➖ ➖ 🦖➖ ➖ ➖ 🌟  🌟  🌟
 
 	// Helper function to compare event dates with the current date
 	function isUpcomingEvent(event) {
@@ -13,6 +17,8 @@
 		const eventDate = new Date(event.event_date)
 		return eventDate >= today
 	}
+
+	//➖ ➖ ➖ ➖ ➖ 🦖➖ ➖ ➖ 🌟  🌟  🌟
 
 	// Sort events by date and find the first future event
 	let sortedEvents = existingEvents.sort((a, b) => new Date(a.event_date) - new Date(b.event_date))
@@ -23,6 +29,8 @@
 
 	// Add timestamp on the client only using onMount
 	let nextEventImageUrl = nextEventImage ? nextEventImage.url : null
+
+	//➖ ➖ ➖ ➖ ➖ 🦖➖ ➖ ➖ 🌟  🌟  🌟
 
 	onMount(() => {
 		if (nextEventImageUrl) {

@@ -6,6 +6,9 @@ export const load: PageServerLoad = async ({ locals: { supabase, safeGetSession 
   try {
     const { session } = await safeGetSession();
 
+	//➖ ➖ ➖ ➖ ➖ 🦖➖ ➖ ➖ 🌟  🌟  🌟
+
+
     // Step 1: Validate user with supabase.auth.getUser() to ensure authenticity
     const { data: userData, error: userError } = await supabase.auth.getUser();
 
@@ -13,6 +16,9 @@ export const load: PageServerLoad = async ({ locals: { supabase, safeGetSession 
       console.error('Failed to validate user:', userError?.message);
       throw redirect(303, '/'); // Redirect if user is not authenticated
     }
+
+	//➖ ➖ ➖ ➖ ➖ 🦖➖ ➖ ➖ 🌟  🌟  🌟
+
 
     // Fetch products, inventory, sizes, and images
     const { productData, productInventory, sizeData, images, error } = await fetchProductsAndImages(supabase);
@@ -22,6 +28,9 @@ export const load: PageServerLoad = async ({ locals: { supabase, safeGetSession 
       console.error('Error fetching product data:', error);
       return fail(500, { error: 'Failed to load product data' });
     }
+
+	//➖ ➖ ➖ ➖ ➖ 🦖➖ ➖ ➖ 🌟  🌟  🌟
+
 
     // Return all data to the page
     return { session, productData, productInventory, sizeData, images };

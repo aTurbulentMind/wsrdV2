@@ -11,6 +11,9 @@ export const load: PageServerLoad = async ({ url, locals: { supabase } }) => {
       return { existingEvents: [], folders: [], images: [], url: url.origin, error };
     }    
 
+	//➖ ➖ ➖ ➖ ➖ 🦖➖ ➖ ➖ 🌟  🌟  🌟
+
+
     // Fetch thumbnails for each folder
     const foldersWithThumbnails = await Promise.all(
       folders.map(async (folder) => {

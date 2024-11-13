@@ -8,6 +8,8 @@ Needs to change folder name in bucket on submit.  -->
 	import { fetchProductsAndImages, getImages } from '$lib/assets/utils/itm_utils'
 	import type { SubmitFunction } from '@sveltejs/kit'
 
+	//➖ ➖ ➖ ➖ ➖ 🦖➖ ➖ ➖ 🌟  🌟  🌟
+
 	let logCounter = 1
 
 	function log(message, data) {
@@ -15,10 +17,13 @@ Needs to change folder name in bucket on submit.  -->
 		logCounter++
 	}
 
-	// ✨ ✨✨ ✨✨ ✨✨ ✨
+	//➖ ➖ ➖ ➖ ➖ 🦖➖ ➖ ➖ 🌟  🌟  🌟
+
 	export let data
 	let { session, productData, productInventory, sizeData, images } = data
 	$: ({ session, productData, productInventory, sizeData, images } = data)
+
+	//➖ ➖ ➖ ➖ ➖ 🦖➖ ➖ ➖ 🌟  🌟  🌟
 
 	let formData = new FormData()
 	let loading = false
@@ -59,6 +64,8 @@ Needs to change folder name in bucket on submit.  -->
 		images: []
 	}
 
+	//➖ ➖ ➖ ➖ ➖ 🦖➖ ➖ ➖ 🌟  🌟  🌟
+
 	async function handleSizeSelection() {
 		selectedSize = sizeData.find((size) => size.size_id === amountForm.size_id)
 		selectedProduct = productData.find((product) => product.product_id === amountForm.product_id)
@@ -68,11 +75,15 @@ Needs to change folder name in bucket on submit.  -->
 		amountForm.quantity = selectedProduct?.quantity ?? ''
 	}
 
+	//➖ ➖ ➖ ➖ ➖ 🦖➖ ➖ ➖ 🌟  🌟  🌟
+
 	function updateProductName(event) {
 		const selectedOption = event.target.options[event.target.selectedIndex]
 		selectedProductName = selectedOption.getAttribute('data-name')
 		console.log('Selected Product Name:', selectedProductName) // For debugging
 	}
+
+	//➖ ➖ ➖ ➖ ➖ 🦖➖ ➖ ➖ 🌟  🌟  🌟
 
 	async function editItemHandling(event) {
 		const selectedOption = event.target.options[event.target.selectedIndex]
@@ -103,6 +114,8 @@ Needs to change folder name in bucket on submit.  -->
 			)
 		]
 	}
+
+	//➖ ➖ ➖ ➖ ➖ 🦖➖ ➖ ➖ 🌟  🌟  🌟
 
 	function getSizeName(sizeId) {
 		const size = sizeData.find((size) => size.size_id === sizeId)

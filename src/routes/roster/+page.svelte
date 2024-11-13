@@ -1,9 +1,13 @@
 <script lang="ts">
 	import Avatar from '$lib/assets/tools/Avatar.svelte'
 
+	//➖ ➖ ➖ ➖ ➖ 🦖➖ ➖ ➖ 🌟  🌟  🌟
+
 	export let data
 	let { supabase, profile, skater } = data
 	$: ({ supabase, profile, skater } = data)
+
+	//➖ ➖ ➖ ➖ ➖ 🦖➖ ➖ ➖ 🌟  🌟  🌟
 
 	let avatarUrl: string = profile?.avatar_url ?? '' // Get avatar URL
 </script>

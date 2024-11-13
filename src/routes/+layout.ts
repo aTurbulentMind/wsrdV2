@@ -12,6 +12,9 @@ export const load: LayoutLoad = async ({ fetch, data, depends }) => {
           fetch,
         },
       })
+
+	//➖ ➖ ➖ ➖ ➖ 🦖➖ ➖ ➖ 🌟  🌟  🌟
+
     : createServerClient(PUBLIC_SUPABASE_URL, PUBLIC_SUPABASE_ANON_KEY, {
         global: {
           fetch,
@@ -28,6 +31,9 @@ export const load: LayoutLoad = async ({ fetch, data, depends }) => {
    * safe, and on the server, it reads `session` from the `LayoutData`, which
    * safely checked the session using `safeGetSession`.
    */
+
+	//➖ ➖ ➖ ➖ ➖ 🦖➖ ➖ ➖ 🌟  🌟  🌟
+
   const {
     data: { session },
   } = await supabase.auth.getSession()
